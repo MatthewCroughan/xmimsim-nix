@@ -14,6 +14,8 @@
 , hdf5
 , gfortran11
 , python3
+, opencl-clhpp
+, ocl-icd
 , callPackage
 }:
 
@@ -21,7 +23,11 @@ stdenv.mkDerivation rec {
   pname = "xmimsim";
   version = "8.1";
 
+  configureFlags = [ "--enable-opencl" ];
+
   buildInputs = [
+    ocl-icd
+    opencl-clhpp
     gobject-introspection
     glib
     libxml2
@@ -35,7 +41,7 @@ stdenv.mkDerivation rec {
     (callPackage ./easy-rng.nix {})
   ];
 
-  nativeBuildInputs = [ autoreconfHook pkg-config gfortran11 python3 ];
+  nativeBuildInputs = [ autoreconfHook pkg-config gfortran11 python3  ];
 
   src = fetchFromGitHub {
     owner = "tschoonj";
